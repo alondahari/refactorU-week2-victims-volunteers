@@ -39,7 +39,6 @@ var displayData = function (list, value, i) {
 
 for (type in types) {
   var numberOfPeople = prompt('How many ' + types[type] + 's?');
-
   for (var i = 1; i <= numberOfPeople; i++) {
     getData(types[type], i);
     displayData(document.getElementById(types[type] + '-info'), types[type], i);
