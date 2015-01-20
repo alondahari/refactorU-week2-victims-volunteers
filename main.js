@@ -1,17 +1,28 @@
 var numberOfVictims = prompt('How many victims?');
+var field, fields = {
+  'name': undefined,
+  'number': undefined,
+  'street': undefined
+};
 var victimInfo = [];
 var volunteerInfo =[];
 var victims = document.getElementById('victim-info');
 var volunteers = document.getElementById('volunteer-info');
 var name, number, street, ul, liName, liNumber, liStreet;
 
-function getData(value, i) {
-  name = prompt(value + ' ' + i + ' - name:');
-  number = prompt(value + ' ' + i + ' - number:');
-  street = prompt(value + ' ' + i + ' - street:');
-}
+var loopThrough = function (func) {
+  for (field in fields) {
+      func(field);
+  }
+};
 
-function displayData(list, value, i) {
+var getData = function(value, i) {
+  loopThrough(function(field){
+    fields[field] = prompt(value + ' ' + i + ' - ' + field + ':');
+  });
+};
+
+var displayData = function (list, value, i) {
   ul = document.createElement('ul');
   list.appendChild(ul);
   ul.textContent = value + ' ' + i + ':';
@@ -29,17 +40,14 @@ function displayData(list, value, i) {
   ul.appendChild( liNumber );
   ul.appendChild( liStreet );
 
-}
+};
 
 for (var i = 1; i <= numberOfVictims; i++) {
 
   getData('victim', i);
 
-  victimInfo.push({
-    'name': name,
-    'number': number,
-    'street': street
-  });
+  pushInfo(victimInfo);
+
 
   displayData(victims, i);
 }
