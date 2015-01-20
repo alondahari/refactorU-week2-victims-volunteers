@@ -1,14 +1,13 @@
-var numberOfVictims = prompt('How many victims?');
 var field, fields = {
   'name': undefined,
   'number': undefined,
   'street': undefined
 };
-var victimInfo = [];
-var volunteerInfo =[];
+
+var type, types = ['victim', 'volunteer'];
+
 var victims = document.getElementById('victim-info');
 var volunteers = document.getElementById('volunteer-info');
-var name, number, street, ul, liName, liNumber, liStreet;
 
 var loopThrough = function (func) {
   for (field in fields) {
@@ -23,51 +22,26 @@ var getData = function(value, i) {
 };
 
 var displayData = function (list, value, i) {
-  ul = document.createElement('ul');
-  list.appendChild(ul);
+  var ul = document.createElement('ul');
   ul.textContent = value + ' ' + i + ':';
 
-  liName = document.createElement('li');
-  liName.textContent =  "name: " + name;
-
-  liNumber = document.createElement('li');
-  liNumber.textContent =  "number: " + number;
-
-  liStreet = document.createElement('li');
-  liStreet.textContent =  "street: " + street;
-
-  ul.appendChild( liName );
-  ul.appendChild( liNumber );
-  ul.appendChild( liStreet );
-
-};
-
-for (var i = 1; i <= numberOfVictims; i++) {
-
-  getData('victim', i);
-
-  pushInfo(victimInfo);
-
-
-  displayData(victims, i);
-}
-
-var numberOfVolunteers = prompt('How many volunteers?');
-
-for (var i = 1; i <= numberOfVolunteers; i++) {
-  getData('volunteer', i);
-
-  volunteerInfo.push({
-    'name': name,
-    'number': number,
-    'street': street
+  loopThrough(function (field) {
+    var listElement;
+    listElement = document.createElement('li');
+    listElement.textContent =  field + ": " + fields[field];
+    ul.appendChild( listElement );
   });
 
-  displayData(volunteers, 'volunteer', i);
+  list.appendChild(ul);
+};
+
+for (type in types) {
+  var numberOfPeople = prompt('How many ' + types[type] + 's?');
+
+  for (var i = 1; i <= numberOfPeople; i++) {
+    getData(types[type], i);
+    displayData(document.getElementById(types[type] + '-info'), types[type], i);
+  }
+  document.getElementById('number-of-victims').textContent =
+  'Number of ' + types[type] + 's: ' + numberOfPeople;
 }
-
-document.getElementById('number-of-victims').textContent =
-'Number of victims: ' + numberOfVictims;
-
-document.getElementById('number-of-volunteers').textContent =
-'Number of volunteers: ' + numberOfVolunteers;
