@@ -6,9 +6,6 @@ var field, fields = {
 
 var type, types = ['victim', 'volunteer'];
 
-var victims = document.getElementById('victim-info');
-var volunteers = document.getElementById('volunteer-info');
-
 var loopThrough = function (func) {
   for (field in fields) {
       func(field);
@@ -22,17 +19,22 @@ var getData = function(value, i) {
 };
 
 var displayData = function (list, value, i) {
+  var li = document.createElement('li');
   var ul = document.createElement('ul');
-  ul.textContent = value + ' ' + i + ':';
 
   loopThrough(function (field) {
-    var listElement;
-    listElement = document.createElement('li');
-    listElement.textContent =  field + ": " + fields[field];
-    ul.appendChild( listElement );
+    if (field == 'name') {
+      li.textContent = fields[field];
+    } else {
+      var listElement;
+      listElement = document.createElement('li');
+      listElement.textContent =  field + ": " + fields[field];
+      ul.appendChild( listElement );
+    }
   });
 
-  list.appendChild(ul);
+  li.appendChild( ul );
+  list.appendChild(li);
 };
 
 for (type in types) {
@@ -42,6 +44,6 @@ for (type in types) {
     getData(types[type], i);
     displayData(document.getElementById(types[type] + '-info'), types[type], i);
   }
-  document.getElementById('number-of-victims').textContent =
-  'Number of ' + types[type] + 's: ' + numberOfPeople;
+  document.getElementById('number-of-' + types[type] + 's').textContent =
+  'Number of ' + types[type] + 's: ' + (numberOfPeople || 0);
 }
